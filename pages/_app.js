@@ -1,13 +1,37 @@
-import { AuthProvider } from '../lib/auth';
 import { ChakraProvider, CSSReset } from '@chakra-ui/react';
+import { Global, css } from '@emotion/react';
 
-import theme from '../styles/theme';
+import { AuthProvider } from '@/lib/auth';
+import customTheme from '@/styles/theme';
+
+const GlobalStyle = ({ children }) => {
+  return (
+    <>
+      <CSSReset />
+      <Global
+        styles={css`
+          html {
+            min-width: 300px;
+            scroll-behaviour: smooth-scroll;
+          }
+
+          #__next {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+          }
+        `}
+      />
+      {children}
+    </>
+  );
+};
 
 function MyApp({ Component, pageProps }) {
   return (
-    <ChakraProvider theme={theme}>
+    <ChakraProvider theme={customTheme}>
       <AuthProvider>
-        <CSSReset />
+        <GlobalStyle />
         <Component {...pageProps} />
       </AuthProvider>
     </ChakraProvider>
