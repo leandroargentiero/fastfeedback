@@ -13,6 +13,7 @@ import {
 import { AddIcon } from '@chakra-ui/icons';
 
 import { LogoIcon } from './CustomIcons';
+import DashboardPanel from './DashboardPanel';
 
 const DashboardShell = ({ children }) => {
   const auth = useAuth();
@@ -34,7 +35,7 @@ const DashboardShell = ({ children }) => {
           <Link mr={4} onClick={(e) => auth.signout('/')}>
             Logout
           </Link>
-          <Avatar size="sm" src={auth.user.photoURL} />
+          <Avatar size="sm" src={auth?.user?.photoURL} />
         </Flex>
       </Flex>
       <Flex backgroundColor="gray.50" p={8} height="100%">
@@ -65,18 +66,7 @@ const DashboardShell = ({ children }) => {
               Add site
             </Button>
           </Flex>
-          <Flex
-            width="100%"
-            backgroundColor="white"
-            p={16}
-            borderRadius={8}
-            direction="column"
-            alignItems="center"
-            border="1px"
-            borderColor="gray.100"
-          >
-            {children}
-          </Flex>
+          {children}
         </Flex>
       </Flex>
     </Flex>
