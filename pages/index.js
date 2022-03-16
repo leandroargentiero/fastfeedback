@@ -1,33 +1,41 @@
 import Head from 'next/head';
-import { Button, Text, Heading, Code } from '@chakra-ui/react';
-
-import { LogoIcon } from '@/components/CustomIcons';
+import { Button, Flex } from '@chakra-ui/react';
+import { ArrowForwardIcon } from '@chakra-ui/icons';
 
 import { useAuth } from '@/lib/auth';
+import { LogoIcon } from '@/components/CustomIcons';
 
 export default function Index() {
   const auth = useAuth();
 
   return (
-    <div>
+    <Flex
+      as="main"
+      direction="column"
+      align="center"
+      justify="center"
+      h="100vh"
+    >
       <Head>
         <title>Fast Feedback</title>
       </Head>
-      <main>
-        <LogoIcon color="black" w={32} h={32} />
-        <Text>
-          Current user: <Code>{auth.user ? auth.user.email : 'None'}</Code>
-        </Text>
-        {auth.user ? (
-          <Button onClick={(e) => auth.signout()} size="sm">
-            Sign Out
-          </Button>
-        ) : (
-          <Button onClick={(e) => auth.signinWithGitHub()} size="sm">
-            Sign in with Github
-          </Button>
-        )}
-      </main>
-    </div>
+
+      <LogoIcon color="black" w={16} h={16} />
+
+      {auth.user ? (
+        <Button onClick={(e) => auth.signout()} size="sm" mt={4}>
+          Sign Out
+        </Button>
+      ) : (
+        <Button
+          onClick={(e) => auth.signinWithGitHub()}
+          rightIcon={<ArrowForwardIcon />}
+          size="sm"
+          mt={4}
+        >
+          Sign in with Github
+        </Button>
+      )}
+    </Flex>
   );
 }
