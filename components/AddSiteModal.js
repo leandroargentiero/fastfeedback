@@ -14,20 +14,39 @@ import {
   FormLabel,
   Input,
   useDisclosure,
-  FormErrorMessage
+  FormErrorMessage,
+  useToast
 } from '@chakra-ui/react';
 import { createSite } from '@/lib/db';
+import { useAuth } from '@/lib/auth';
 
 const AddSiteModal = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const initialRef = useRef();
+  const toast = useToast();
+  const auth = useAuth();
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting }
   } = useForm();
 
-  const onCreateSite = (formData) => createSite(formData);
+  const onCreateSite = ({ site, url }) => {
+    createSite({
+      author: auth.user.uid,
+      createdAt: new Date().toISOString(),
+      site,
+      url
+    });
+    toast({
+      title: 'Success!',
+      description: "We've added your site",
+      status: 'success',
+      duration: 5000,
+      isClosable: true
+    });
+    onClose();
+  };
 
   return (
     <>
