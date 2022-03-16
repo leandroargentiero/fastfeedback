@@ -31,11 +31,11 @@ const AddSiteModal = () => {
     formState: { errors, isSubmitting }
   } = useForm();
 
-  const onCreateSite = ({ site, url }) => {
+  const onCreateSite = ({ name, url }) => {
     createSite({
-      author: auth.user.uid,
+      authorId: auth.user.uid,
       createdAt: new Date().toISOString(),
-      site,
+      name,
       url
     });
     toast({
@@ -60,16 +60,16 @@ const AddSiteModal = () => {
           <ModalCloseButton />
           <ModalBody pb={6}>
             <FormControl isInvalid={errors.site}>
-              <FormLabel htmlFor="site">Name</FormLabel>
+              <FormLabel htmlFor="name">Name</FormLabel>
               <Input
-                id="site"
-                placeholder="site"
-                {...register('site', {
-                  required: 'Site is required'
+                id="name"
+                placeholder="name"
+                {...register('name', {
+                  required: 'Name is required'
                 })}
               />
               <FormErrorMessage>
-                {errors.site && errors.site.message}
+                {errors.name && errors.name.message}
               </FormErrorMessage>
             </FormControl>
 
