@@ -1,6 +1,8 @@
 import Head from 'next/head';
 import { Button, Text, Heading, Code } from '@chakra-ui/react';
 
+import { LogoIcon } from '@/components/CustomIcons';
+
 import { useAuth } from '@/lib/auth';
 
 export default function Index() {
@@ -12,7 +14,7 @@ export default function Index() {
         <title>Fast Feedback</title>
       </Head>
       <main>
-        <Heading>Fast Feedback</Heading>
+        <LogoIcon color="black" w={32} h={32} />
         <Text>
           Current user: <Code>{auth.user ? auth.user.email : 'None'}</Code>
         </Text>
