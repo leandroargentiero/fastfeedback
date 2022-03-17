@@ -10,10 +10,9 @@ import {
   Heading,
   Button
 } from '@chakra-ui/react';
-import { AddIcon } from '@chakra-ui/icons';
+import AddSiteModal from './AddSiteModal';
 
 import { LogoIcon } from './CustomIcons';
-import DashboardPanel from './DashboardPanel';
 
 const DashboardShell = ({ children }) => {
   const auth = useAuth();
@@ -58,13 +57,7 @@ const DashboardShell = ({ children }) => {
           </Breadcrumb>
           <Flex w="full" justifyContent="space-between" mb={7}>
             <Heading size="xl">My sites</Heading>
-            <Button
-              backgroundColor="gray.800"
-              color="gray.100"
-              leftIcon={<AddIcon w={3} h={3} />}
-            >
-              Add site
-            </Button>
+            <AddSiteModal>+ add site</AddSiteModal>
           </Flex>
           {children}
         </Flex>

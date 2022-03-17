@@ -18,7 +18,7 @@ const SiteTable = ({ sites }) => {
       <tbody>
         {sites.map((site) => {
           return (
-            <Box as="tr" key={site.id}>
+            <Box as="tr" key={site.url}>
               <Td fontWeight="medium">{site.name}</Td>
               <Td>{site.url}</Td>
               <Td>
