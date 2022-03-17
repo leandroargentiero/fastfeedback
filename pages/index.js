@@ -4,6 +4,7 @@ import { ArrowForwardIcon } from '@chakra-ui/icons';
 
 import { useAuth } from '@/lib/auth';
 import { LogoIcon } from '@/components/CustomIcons';
+import Link from 'next/link';
 
 export default function Index() {
   const auth = useAuth();
@@ -23,9 +24,11 @@ export default function Index() {
       <LogoIcon color="black" w={16} h={16} />
 
       {auth.user ? (
-        <Button onClick={(e) => auth.signout()} size="sm" mt={4}>
-          Sign Out
-        </Button>
+        <Link href="/dashboard" passHref>
+          <Button as="a" size="sm" mt={4}>
+            Go to dashboard
+          </Button>
+        </Link>
       ) : (
         <Button
           onClick={(e) => auth.signinWithGitHub()}
