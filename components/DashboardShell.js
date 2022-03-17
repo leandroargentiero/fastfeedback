@@ -1,17 +1,16 @@
-import { useAuth } from '@/lib/auth';
 import {
-  Flex,
-  Link,
-  Stack,
   Avatar,
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
+  Flex,
   Heading,
-  Button
+  Link,
+  Stack
 } from '@chakra-ui/react';
-import AddSiteModal from './AddSiteModal';
 
+import AddSiteModal from './AddSiteModal';
+import { useAuth } from '@/lib/auth';
 import { LogoIcon } from './CustomIcons';
 
 const DashboardShell = ({ children }) => {
@@ -34,7 +33,7 @@ const DashboardShell = ({ children }) => {
           <Link mr={4} onClick={(e) => auth.signout('/')}>
             Logout
           </Link>
-          <Avatar size="sm" src={auth?.user?.photoURL} />
+          <Avatar size="sm" src={auth.user && auth.user.photoURL} />
         </Flex>
       </Flex>
       <Flex backgroundColor="gray.50" p={8} height="100%">

@@ -1,10 +1,8 @@
-import admin from '@/lib/firebase-admin';
+import { db } from '@/lib/firebase-admin';
 
 export default async function handler(_, res) {
-  const firebase = admin.firestore();
-
   try {
-    const sitesRef = firebase.collection('sites');
+    const sitesRef = db.collection('sites');
     const snapshot = await sitesRef.get();
     const sites = [];
 
