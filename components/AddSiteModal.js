@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { mutate } from 'swr';
 
@@ -22,6 +22,10 @@ import { createSite } from '@/lib/db';
 import { useAuth } from '@/lib/auth';
 
 const AddSiteModal = ({ children }) => {
+  const [formState, setFormState] = useState({
+    name: '',
+    url: ''
+  });
   const initialRef = useRef();
   const toast = useToast();
   const auth = useAuth();
@@ -42,32 +46,41 @@ const AddSiteModal = ({ children }) => {
 
     const { error } = createSite(newSite);
 
-    if (!error) {
+    if (error) {
       toast({
-        title: 'Success!',
-        description: "We've added your site",
-        status: 'success',
+        title: 'Something went wrong.',
+        description: "We've failed to add your site",
+        status: 'error',
         duration: 5000,
         isClosable: true
       });
-
-      mutate(
-        '/api/sites',
-        async (data) => {
-          return { sites: [newSite, ...data.sites] };
-        },
-        false
-      );
-
-      onClose();
     }
 
     toast({
-      title: 'Something went wrong.',
-      description: "We've failed to add your site",
-      status: 'error',
+      title: 'Success!',
+      description: "We've added your site",
+      status: 'success',
       duration: 5000,
       isClosable: true
+    });
+
+    mutate(
+      ['/api/sites', auth.user.token],
+      async (data) => {
+        return { sites: [newSite, ...data.sites] };
+      },
+      false
+    );
+
+    setFormState({ name: '', url: '' });
+    onClose();
+  };
+
+  const handleChange = (e) => {
+    console.log(e);
+    setFormState({
+      ...formState,
+      [e.target.name]: e.target.value
     });
   };
 
@@ -97,6 +110,8 @@ const AddSiteModal = ({ children }) => {
                 {...register('name', {
                   required: 'Name is required'
                 })}
+                value={formState.name}
+                onChange={handleChange}
               />
               <FormErrorMessage>
                 {errors.name && errors.name.message}
@@ -104,13 +119,15 @@ const AddSiteModal = ({ children }) => {
             </FormControl>
 
             <FormControl isInvalid={errors.url} mt={4}>
-              <FormLabel htmlFor="url">Link</FormLabel>
+              <FormLabel htmlFor="url">Url</FormLabel>
               <Input
                 id="url"
                 placeholder="https://website.com"
                 {...register('url', {
                   required: 'Url is required'
                 })}
+                value={formState.url}
+                onChange={handleChange}
               />
               <FormErrorMessage>
                 {errors.url && errors.url.message}
