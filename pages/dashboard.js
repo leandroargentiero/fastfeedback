@@ -5,7 +5,7 @@ import fetcher from '@/utils/fetcher';
 import SiteTableSkeleton from '@/components/SiteTableSkeleton';
 import SiteTable from '@/components/SiteTable';
 
-export default function Index() {
+const Dashboard = () => {
   const { data } = useSWR('/api/sites', fetcher);
 
   if (!data) {
@@ -20,4 +20,6 @@ export default function Index() {
       {data.sites ? <SiteTable sites={data.sites} /> : <SiteTableSkeleton />}
     </DashboardShell>
   );
-}
+};
+
+export default Dashboard;

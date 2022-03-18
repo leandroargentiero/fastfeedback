@@ -40,22 +40,35 @@ const AddSiteModal = ({ children }) => {
       url
     };
 
-    createSite(newSite);
+    const { error } = createSite(newSite);
+
+    if (!error) {
+      toast({
+        title: 'Success!',
+        description: "We've added your site",
+        status: 'success',
+        duration: 5000,
+        isClosable: true
+      });
+
+      mutate(
+        '/api/sites',
+        async (data) => {
+          return { sites: [newSite, ...data.sites] };
+        },
+        false
+      );
+
+      onClose();
+    }
+
     toast({
-      title: 'Success!',
-      description: "We've added your site",
-      status: 'success',
+      title: 'Something went wrong.',
+      description: "We've failed to add your site",
+      status: 'error',
       duration: 5000,
       isClosable: true
     });
-    mutate(
-      '/api/sites',
-      async (data) => {
-        return { sites: [...data.sites, newSite] };
-      },
-      false
-    );
-    onClose();
   };
 
   return (

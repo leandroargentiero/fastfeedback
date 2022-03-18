@@ -51,11 +51,12 @@ const SiteFeedback = ({ initialFeedback }) => {
       status: 'pending'
     };
 
-    setAllFeedback([newFeedback, ...allFeedback]);
-    createFeedback(newFeedback);
-  };
+    const { error } = createFeedback(newFeedback);
 
-  console.log(allFeedback);
+    if (!error) {
+      setAllFeedback([newFeedback, ...allFeedback]);
+    }
+  };
 
   return (
     <Box
