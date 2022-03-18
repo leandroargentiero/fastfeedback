@@ -33,7 +33,7 @@ const DashboardShell = ({ children }) => {
           <Link mr={4} onClick={(e) => auth.signout('/')}>
             Logout
           </Link>
-          <Avatar size="sm" src={auth.user && auth.user.photoURL} />
+          <Avatar size="sm" src={auth?.user?.photoUrl} />
         </Flex>
       </Flex>
       <Flex backgroundColor="gray.50" p={8} height="100%">
