@@ -29,7 +29,7 @@ export async function getStaticPaths() {
 
   return {
     paths,
-    fallback: false
+    fallback: true
   };
 }
 
@@ -54,6 +54,7 @@ const SiteFeedback = ({ initialFeedback }) => {
       status: 'pending'
     };
 
+    inputEl.current.value = '';
     const { error } = createFeedback(newFeedback);
 
     if (!error) {
@@ -73,7 +74,9 @@ const SiteFeedback = ({ initialFeedback }) => {
         <FormControl my={5}>
           <FormLabel htmlFor="email">Comment</FormLabel>
           <Input id="comment" type="text" ref={inputEl} />
-          <Button type="submit">Add Comment</Button>
+          <Button type="submit" isDisabled={router.isFallback}>
+            Add Comment
+          </Button>
         </FormControl>
       </Box>
       {allFeedback.map((feedback) => (
