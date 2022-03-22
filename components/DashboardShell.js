@@ -1,13 +1,5 @@
-import {
-  Avatar,
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  Flex,
-  Heading,
-  Link,
-  Stack
-} from '@chakra-ui/react';
+import NextLink from 'next/link';
+import { Avatar, Flex, Link, Stack } from '@chakra-ui/react';
 
 import AddSiteModal from './AddSiteModal';
 import { useAuth } from '@/lib/auth';
@@ -25,9 +17,17 @@ const DashboardShell = ({ children }) => {
         px={8}
       >
         <Stack spacing={4} isInline alignItems="center">
-          <LogoIcon color="black" w={8} h={8} />
-          <Link>Feedback</Link>
-          <Link>Sites</Link>
+          <NextLink href="/dashboard" passHref>
+            <Link>
+              <LogoIcon color="black" w={8} h={8} />
+            </Link>
+          </NextLink>
+          <NextLink href="/dashboard" passHref>
+            <Link>Sites</Link>
+          </NextLink>
+          <NextLink href="/feedback" passHref>
+            <Link>Feedback</Link>
+          </NextLink>
         </Stack>
         <Flex alignItems="center" justifyContent="center">
           <Link mr={4} onClick={(e) => auth.signout('/')}>
