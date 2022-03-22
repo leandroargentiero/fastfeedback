@@ -36,7 +36,7 @@ const AddSiteModal = ({ children }) => {
     formState: { errors, isSubmitting }
   } = useForm();
 
-  const onCreateSite = ({ name, url }) => {
+  const onCreateSite = async ({ name, url }) => {
     const newSite = {
       authorId: auth.user.uid,
       createdAt: new Date().toISOString(),
@@ -44,7 +44,7 @@ const AddSiteModal = ({ children }) => {
       url
     };
 
-    const { error } = createSite(newSite);
+    const { id, error } = await createSite(newSite);
 
     if (error) {
       toast({
@@ -66,9 +66,7 @@ const AddSiteModal = ({ children }) => {
 
     mutate(
       ['/api/sites', auth.user.token],
-      async (data) => {
-        return { sites: [newSite, ...data.sites] };
-      },
+      async (data) => ({ sites: [...data.sites, { id, ...newSite }] }),
       false
     );
 
@@ -77,7 +75,6 @@ const AddSiteModal = ({ children }) => {
   };
 
   const handleChange = (e) => {
-    console.log(e);
     setFormState({
       ...formState,
       [e.target.name]: e.target.value
