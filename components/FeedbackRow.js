@@ -22,8 +22,8 @@ const FeedbackRow = ({ id, siteName, text, status, siteId }) => {
   return (
     <Box as="tr" key={id}>
       <Td>
-        <NextLink href={`/p/${siteId}`} passHref>
-          <Link>{siteName}</Link>
+        <NextLink href={`/sites/${siteId}`} passHref>
+          <Link fontWeight="medium">{siteName}</Link>
         </NextLink>
       </Td>
       <Td>{text}</Td>
