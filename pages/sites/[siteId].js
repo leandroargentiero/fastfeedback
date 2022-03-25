@@ -1,19 +1,29 @@
 import { useRef, useState } from 'react';
 import { useRouter } from 'next/router';
-import { FormControl, FormLabel, Box, Input, Button } from '@chakra-ui/react';
+import {
+  FormControl,
+  FormLabel,
+  Box,
+  Textarea,
+  Button
+} from '@chakra-ui/react';
 
 import { useAuth } from '@/lib/auth';
 import { createFeedback, getSite } from '@/lib/db';
 import { getAllFeedback, getAllSites } from '@/lib/db-admin';
 import Feedback from '@/components/Feedback';
 import DashboardShell from '@/components/DashboardShell';
+import SiteFeedbackTableHeader from '@/components/SiteFeedbackTableHeader';
 
 export async function getStaticProps(context) {
   const siteId = context.params.siteId;
   const { feedback } = await getAllFeedback(siteId);
+  const { site } = await getSite(siteId);
+
   return {
     props: {
-      initialFeedback: feedback
+      initialFeedback: feedback,
+      site
     },
     revalidate: 10
   };
@@ -34,7 +44,7 @@ export async function getStaticPaths() {
   };
 }
 
-const SiteFeedback = ({ initialFeedback = [] }) => {
+const SiteFeedback = ({ initialFeedback = [], site }) => {
   const auth = useAuth();
   const router = useRouter();
   const inputEl = useRef(null);
@@ -65,25 +75,28 @@ const SiteFeedback = ({ initialFeedback = [] }) => {
 
   return (
     <DashboardShell>
-      <Box
-        display="flex"
-        flexDirection="column"
-        w="full"
-        maxWidth="600px"
-        margin="0 auto"
-      >
-        <Box as="form" onSubmit={onSubmit}>
-          <FormControl my={5}>
+      <SiteFeedbackTableHeader siteName={site.name} />
+      <Box display="flex" flexDirection="column" w="full">
+        <Box as="form" onSubmit={onSubmit} mb={16}>
+          <FormControl>
             <FormLabel htmlFor="email">Comment</FormLabel>
-            <Input
+            <Textarea
+              ref={inputEl}
               background="white"
               id="comment"
               mb={4}
-              placeholder="Leave a comment"
-              ref={inputEl}
-              type="text"
+              placeholder="Here is a sample placeholder"
             />
-            <Button type="submit" isDisabled={router.isFallback}>
+            <Button
+              type="submit"
+              isDisabled={router.isFallback}
+              size="md"
+              backgroundColor="gray.900"
+              color="white"
+              fontWeight="medium"
+              _hover={{ bg: 'gray.700' }}
+              _active={{ bg: 'gray.800', transform: 'scale(0.98)' }}
+            >
               Add Comment
             </Button>
           </FormControl>

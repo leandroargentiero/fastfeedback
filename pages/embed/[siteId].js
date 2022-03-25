@@ -6,6 +6,7 @@ import { useAuth } from '@/lib/auth';
 import { createFeedback, getSite } from '@/lib/db';
 import { getAllFeedback, getAllSites } from '@/lib/db-admin';
 import Feedback from '@/components/Feedback';
+import FeedbackLink from '@/components/FeedbackLink';
 
 export async function getStaticProps(context) {
   const siteId = context.params.siteId;
@@ -64,22 +65,7 @@ const SiteFeedbackEmbed = ({ initialFeedback = [] }) => {
 
   return (
     <Box display="flex" flexDirection="column" w="full">
-      <Box as="form" onSubmit={onSubmit}>
-        <FormControl my={5}>
-          <FormLabel htmlFor="email">Comment</FormLabel>
-          <Input
-            background="white"
-            id="comment"
-            mb={4}
-            placeholder="Leave a comment"
-            ref={inputEl}
-            type="text"
-          />
-          <Button type="submit" isDisabled={router.isFallback}>
-            Add Comment
-          </Button>
-        </FormControl>
-      </Box>
+      <FeedbackLink siteId={router.query.siteId} />
       {allFeedback.map((feedback) => (
         <Feedback key={feedback.createdAt} {...feedback} />
       ))}

@@ -136,10 +136,15 @@ const AddSiteModal = ({ children }) => {
             <Button onClick={onClose} mr={3}>
               Cancel
             </Button>
+
             <Button
               type="submit"
               isLoading={isSubmitting}
-              backgroundColor="#99FFFE"
+              backgroundColor="gray.900"
+              color="white"
+              fontWeight="medium"
+              _hover={{ bg: 'gray.700' }}
+              _active={{ bg: 'gray.800', transform: 'scale(0.98)' }}
             >
               Create
             </Button>
