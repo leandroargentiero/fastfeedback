@@ -19,8 +19,16 @@ const SiteTable = ({ sites }) => {
         {sites.map((site) => {
           return (
             <Box as="tr" key={site.url}>
-              <Td fontWeight="medium">{site.name}</Td>
-              <Td>{site.url}</Td>
+              <Td fontWeight="medium">
+                <NextLink href={`/sites/${site.id}`} passHref>
+                  <Link>{site.name}</Link>
+                </NextLink>
+              </Td>
+              <Td>
+                <Link href={`${site.url}`} target="_blank">
+                  {site.url}
+                </Link>
+              </Td>
               <Td>
                 <NextLink href={`/feedback/${site.id}`} passHref>
                   <Link color="blue.500">View Feedback</Link>
