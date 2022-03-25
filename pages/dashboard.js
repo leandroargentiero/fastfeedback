@@ -7,6 +7,7 @@ import EmptyState from '@/components/EmptyState';
 import SiteTable from '@/components/SiteTable';
 import SiteTableSkeleton from '@/components/SiteTableSkeleton';
 import SiteTableHeader from '@/components/SiteTableHeader';
+import Page from '@/components/Page';
 
 const Dashboard = () => {
   const { user } = useAuth();
@@ -28,4 +29,12 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+const DashboardPage = () => {
+  return (
+    <Page name="Dashboard" path="/dashboard">
+      <Dashboard />
+    </Page>
+  );
+};
+
+export default DashboardPage;

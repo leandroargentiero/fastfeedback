@@ -7,6 +7,7 @@ import EmptyState from '@/components/EmptyState';
 import FeedbackTable from '@/components/FeedbackTable';
 import SiteTableSkeleton from '@/components/SiteTableSkeleton';
 import FeedbackTableHeader from '@/components/FeedbackTableHeader';
+import Page from '@/components/Page';
 
 const Feedback = () => {
   const { user } = useAuth();
@@ -33,4 +34,12 @@ const Feedback = () => {
   );
 };
 
-export default Feedback;
+const MyFeedbackPage = () => {
+  return (
+    <Page name="My Feedback" path="/feedback">
+      <Feedback />
+    </Page>
+  );
+};
+
+export default MyFeedbackPage;
