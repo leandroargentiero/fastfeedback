@@ -2,12 +2,6 @@ import { Table, Tr, Th, Td } from './Table';
 import FeedbackRow from './FeedbackRow';
 
 const FeedbackTable = ({ allFeedback }) => {
-  const toggleStatus = (e) => {
-    console.log(e);
-  };
-
-  console.log(allFeedback);
-
   return (
     <Table>
       <thead>
