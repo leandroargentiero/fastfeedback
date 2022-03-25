@@ -22,20 +22,24 @@ const RemoveFeedbackButton = ({ feedbackId }) => {
   const cancelRef = useRef();
   const auth = useAuth();
 
-  const onDeleteFeedback = () => {
-    deleteFeedback(feedbackId);
-    mutate(
-      ['/api/feedback', auth.user.token],
-      async (data) => {
-        return {
-          feedback: data.feedback.filter(
-            (feedback) => feedback.id !== feedbackId
-          )
-        };
-      },
-      false
-    );
-    onClose();
+  const onDeleteFeedback = async () => {
+    try {
+      await deleteFeedback(feedbackId);
+      mutate(
+        ['/api/feedback', auth.user.token],
+        async (data) => {
+          return {
+            feedback: data.feedback.filter(
+              (feedback) => feedback.id !== feedbackId
+            )
+          };
+        },
+        false
+      );
+      onClose();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
