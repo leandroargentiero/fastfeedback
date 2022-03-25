@@ -31,7 +31,7 @@ const Dashboard = () => {
 
 const DashboardPage = () => {
   return (
-    <Page name="Dashboard" path="/dashboard">
+    <Page name="Dashboard" path="/sites">
       <Dashboard />
     </Page>
   );
