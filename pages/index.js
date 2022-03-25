@@ -32,7 +32,7 @@ export default function Index() {
           dangerouslySetInnerHTML={{
             __html: `
           if (document.cookie && document.cookie.includes('fast-feedback-auth')) {
-            window.location.href = "/sites"
+            window.location.href = "/dashboard"
           }
         `
           }}
@@ -65,7 +65,7 @@ export default function Index() {
         </Box>
 
         {auth.user ? (
-          <NextLink href="/sites" passHref>
+          <NextLink href="/dashboard" passHref>
             <Button
               size="md"
               mt={4}

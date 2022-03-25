@@ -17,12 +17,12 @@ const DashboardShell = ({ children }) => {
         px={8}
       >
         <Stack spacing={4} isInline alignItems="center">
-          <NextLink href="/dashboard" passHref>
+          <NextLink href="/sites" passHref>
             <Link>
               <LogoIcon color="black" w={8} h={8} />
             </Link>
           </NextLink>
-          <NextLink href="/dashboard" passHref>
+          <NextLink href="/sites" passHref>
             <Link>Sites</Link>
           </NextLink>
           <NextLink href="/feedback" passHref>
