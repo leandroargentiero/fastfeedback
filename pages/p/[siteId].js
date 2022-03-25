@@ -33,7 +33,7 @@ export async function getStaticPaths() {
   };
 }
 
-const SiteFeedback = ({ initialFeedback }) => {
+const SiteFeedback = ({ initialFeedback = [] }) => {
   const auth = useAuth();
   const router = useRouter();
   const inputEl = useRef(null);
