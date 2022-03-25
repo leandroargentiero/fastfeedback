@@ -75,7 +75,7 @@ const SiteFeedback = ({ initialFeedback = [], site }) => {
 
   return (
     <DashboardShell>
-      <SiteFeedbackTableHeader siteName={site.name} />
+      <SiteFeedbackTableHeader site={site} isSiteOwner={true} />
       <Box display="flex" flexDirection="column" w="full">
         <Box as="form" onSubmit={onSubmit} mb={16}>
           <FormControl>
