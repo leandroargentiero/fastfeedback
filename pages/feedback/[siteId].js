@@ -30,7 +30,7 @@ const SiteFeedback = () => {
   return (
     <DashboardShell>
       <SiteFeedbackTableHeader siteName={data?.site?.name || '-'} />
-      {data.feedback.length ? (
+      {data.feedback?.length ? (
         <FeedbackTable allFeedback={data.feedback} />
       ) : (
         <FeedbackEmptyState />
