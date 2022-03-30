@@ -1,7 +1,6 @@
-import { useState } from 'react';
 import NextLink from 'next/link';
-import { mutate } from 'swr';
-import { Box, Code, Switch, Link } from '@chakra-ui/react';
+import { useSWRConfig } from 'swr';
+import { Box, Code, Switch, Link, useToast } from '@chakra-ui/react';
 
 import { updateFeedback } from '@/lib/db';
 import { useAuth } from '@/lib/auth';
@@ -9,14 +8,26 @@ import { Td } from './Table';
 import RemoveFeedbackButton from './RemoveFeedbackButton';
 
 const FeedbackRow = ({ id, siteName, text, status, siteId }) => {
-  const [checked, setChecked] = useState(status === 'active');
   const auth = useAuth();
+  const { mutate } = useSWRConfig();
+  const toast = useToast();
+  const isChecked = status === 'active';
 
   const toggleStatus = async (e) => {
-    await updateFeedback(id, {
-      status: !checked ? 'active' : 'pending'
-    });
-    mutate(['/api/feedback', auth.user.token]);
+    try {
+      await updateFeedback(id, {
+        status: !isChecked ? 'active' : 'pending'
+      });
+      mutate([`/api/feedback/${siteId}`, auth.user.token]);
+    } catch (error) {
+      toast({
+        title: 'Something went wrong.',
+        description: "We couldn't toggle the status.",
+        status: 'error',
+        duration: 5000,
+        isClosable: true
+      });
+    }
   };
 
   return (
@@ -34,7 +45,7 @@ const FeedbackRow = ({ id, siteName, text, status, siteId }) => {
         <Switch
           size="md"
           colorScheme="green"
-          isChecked={status === 'active'}
+          isChecked={isChecked}
           onChange={toggleStatus}
         />
       </Td>
