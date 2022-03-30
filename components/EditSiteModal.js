@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { mutate } from 'swr';
+import { useSWRConfig } from 'swr';
 import {
   Modal,
   ModalOverlay,
@@ -20,18 +20,17 @@ import {
 import { SettingsIcon } from '@chakra-ui/icons';
 
 import { updateSite } from '@/lib/db';
-import { useAuth } from '@/lib/auth';
 
 const EditSiteModal = ({ siteId, settings, children }) => {
   const [formState, setFormState] = useState({});
   const initialRef = useRef();
   const toast = useToast();
-  const auth = useAuth();
+  const { mutate } = useSWRConfig();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting }
+    formState: { isSubmitting }
   } = useForm();
 
   const onEditSite = async ({ icon, ratings, timestamp }) => {
@@ -43,6 +42,8 @@ const EditSiteModal = ({ siteId, settings, children }) => {
 
     try {
       await updateSite(siteId, newSettings);
+      mutate(`/api/site/${siteId}`);
+      onClose();
       toast({
         title: 'Success!',
         description: "We've updated your site",
@@ -50,10 +51,7 @@ const EditSiteModal = ({ siteId, settings, children }) => {
         duration: 5000,
         isClosable: true
       });
-      mutate(['/api/sites', auth.user.token]);
-      onClose();
     } catch (error) {
-      console.log(error.message);
       toast({
         title: 'Something went wrong.',
         description: "We've failed to updated your site",
