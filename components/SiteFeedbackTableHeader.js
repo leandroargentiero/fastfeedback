@@ -9,11 +9,7 @@ import {
 } from '@chakra-ui/react';
 import EditSiteModal from './EditSiteModal';
 
-const SiteFeedbackTableHeader = ({ site, isSiteOwner }) => {
-  const router = useRouter();
-  const { siteId } = router.query;
-  const siteName = site?.name;
-
+const SiteFeedbackTableHeader = ({ siteName, isSiteOwner }) => {
   return (
     <>
       <Breadcrumb color="gray.600" fontSize="sm">

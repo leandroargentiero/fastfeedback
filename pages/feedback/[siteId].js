@@ -13,15 +13,21 @@ import Page from '@/components/Page';
 const SiteFeedback = () => {
   const { user } = useAuth();
   const { query } = useRouter();
-  const { data } = useSWR(
+  const { data: siteData } = useSWR(
+    user ? [`/api/site/${query.siteId}`, user.token] : null,
+    fetcher
+  );
+  const { data: feedbackData } = useSWR(
     user ? [`/api/feedback/${query.siteId}`, user.token] : null,
     fetcher
   );
 
-  if (!data) {
+  console.log(siteData?.name);
+
+  if (!feedbackData) {
     return (
       <DashboardShell>
-        <SiteFeedbackTableHeader siteName={data?.site?.name || '-'} />
+        <SiteFeedbackTableHeader siteName={siteData?.name || '-'} />
         <SiteTableSkeleton />
       </DashboardShell>
     );
@@ -29,9 +35,9 @@ const SiteFeedback = () => {
 
   return (
     <DashboardShell>
-      <SiteFeedbackTableHeader siteName={data?.site?.name || '-'} />
-      {data.feedback?.length ? (
-        <FeedbackTable allFeedback={data.feedback} />
+      <SiteFeedbackTableHeader siteName={siteData?.name || '-'} />
+      {feedbackData?.length ? (
+        <FeedbackTable allFeedback={feedbackData} />
       ) : (
         <FeedbackEmptyState />
       )}
