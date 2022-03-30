@@ -1,7 +1,6 @@
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { mutate } from 'swr';
-
 import {
   Modal,
   ModalOverlay,
@@ -18,21 +17,19 @@ import {
   FormErrorMessage,
   useToast
 } from '@chakra-ui/react';
+
 import { createSite } from '@/lib/db';
 import { useAuth } from '@/lib/auth';
 
 const AddSiteModal = ({ children }) => {
-  const [formState, setFormState] = useState({
-    name: '',
-    url: ''
-  });
-  const initialRef = useRef();
   const toast = useToast();
+  const initialRef = useRef();
   const auth = useAuth();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors, isSubmitting }
   } = useForm();
 
@@ -41,12 +38,31 @@ const AddSiteModal = ({ children }) => {
       authorId: auth.user.uid,
       createdAt: new Date().toISOString(),
       name,
-      url
+      url,
+      settings: {
+        timestamp: true,
+        icon: true,
+        ratings: true
+      }
     };
 
-    const { id, error } = await createSite(newSite);
-
-    if (error) {
+    try {
+      const { id } = await createSite(newSite);
+      mutate(
+        ['/api/sites', auth.user.token],
+        async (data) => ({ sites: [{ id, ...newSite }, ...data.sites] }),
+        false
+      );
+      reset({ name: '', url: '' });
+      onClose();
+      toast({
+        title: 'Success!',
+        description: "We've added your site",
+        status: 'success',
+        duration: 5000,
+        isClosable: true
+      });
+    } catch (error) {
       toast({
         title: 'Something went wrong.',
         description: "We've failed to add your site",
@@ -55,30 +71,6 @@ const AddSiteModal = ({ children }) => {
         isClosable: true
       });
     }
-
-    toast({
-      title: 'Success!',
-      description: "We've added your site",
-      status: 'success',
-      duration: 5000,
-      isClosable: true
-    });
-
-    mutate(
-      ['/api/sites', auth.user.token],
-      async (data) => ({ sites: [{ id, ...newSite }, ...data.sites] }),
-      false
-    );
-
-    setFormState({ name: '', url: '' });
-    onClose();
-  };
-
-  const handleChange = (e) => {
-    setFormState({
-      ...formState,
-      [e.target.name]: e.target.value
-    });
   };
 
   return (
@@ -99,7 +91,7 @@ const AddSiteModal = ({ children }) => {
           <ModalHeader>Add Site</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
-            <FormControl isInvalid={errors.site}>
+            <FormControl isInvalid={errors.name}>
               <FormLabel htmlFor="name">Name</FormLabel>
               <Input
                 id="name"
@@ -107,8 +99,7 @@ const AddSiteModal = ({ children }) => {
                 {...register('name', {
                   required: 'Name is required'
                 })}
-                value={formState.name}
-                onChange={handleChange}
+                // ref={initialRef}
               />
               <FormErrorMessage>
                 {errors.name && errors.name.message}
@@ -123,8 +114,6 @@ const AddSiteModal = ({ children }) => {
                 {...register('url', {
                   required: 'Url is required'
                 })}
-                value={formState.url}
-                onChange={handleChange}
               />
               <FormErrorMessage>
                 {errors.url && errors.url.message}
