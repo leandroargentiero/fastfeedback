@@ -1,34 +1,101 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<div id="top"></div>
+
+<!-- PROJECT LOGO -->
+<br />
+<div align="center">
+  <img src="public/og.jpg" alt="Logo" width="auto" height="80">
+
+  <h3 align="center">Fast Feedback 2022</h3>
+
+  <p align="center">
+   An easy solution for adding comments or reviews to a static site.
+    <br />
+    <a href="https://fastfeedback-sandy-sigma.vercel.app/"><strong>View demo »</strong></a>
+    <br />
+  </p>
+</div>
+
+<!-- TABLE OF CONTENTS
+<details>
+  <summary>Table of Contents</summary>
+  <ol>
+    <li>
+      <a href="#about-the-project">About The Project</a>
+      <ul>
+        <li><a href="#built-with">Built With</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+      <ul>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#installation">Installation</a></li>
+      </ul>
+    </li>
+    <li><a href="#usage">Usage</a></li>
+    <li><a href="#roadmap">Roadmap</a></li>
+    <li><a href="#contributing">Contributing</a></li>
+    <li><a href="#license">License</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#acknowledgments">Acknowledgments</a></li>
+  </ol>
+</details> -->
+
+<!-- ABOUT THE PROJECT -->
+
+## About The Project
+
+<img src="public/screenshot.png" alt="app dashboard screenshot">
+
+This version of <strong>Fast Feedback</strong> was built by <u>Leandro Argentiero</u> as part of React 2025 and completely adapted to Firebase's v9 modular SDK. Fast Feedback is an easy SaaS solution for adding comments or reviews to a static site. It's still a work in progress, but you can try it out by leaving a comment below or logging and start adding your own sites.
+
+### Built With
+
+- [Next.js](https://nextjs.org/)
+- [React.js](https://reactjs.org/)
+- [Chakra UI](https://chakra-ui.com/)
+- [Firebase](https://firebase.google.com/)
+- [Firebase Admin](https://firebase.google.com/docs/database/web/read-and-write)
+- [SWR](https://swr.vercel.app/)
+- [React Hook Form](https://react-hook-form.com/)
+- [Checkly](https://www.checklyhq.com/)
+- [Vercel](https://vercel.com)
+
+<!-- GETTING STARTED -->
 
 ## Getting Started
 
-First, run the development server:
+## Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
+Please consult <code>.env.example</code> for adding necessary env variables in <code>.env.example</code>.
+
+## Installing project
+
+```
+clone project
+cd fastfeedback
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Install the dependencies
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+```
+yarn
+```
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+Start development server
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+```
+yarn dev
+Visit http://localhost:3000
+```
 
-## Learn More
+## Building for production
 
-To learn more about Next.js, take a look at the following resources:
+To create an optimised version of the app
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+yarn build
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+```
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+<p align="right">(<a href="#top">back to top</a>)</p>
