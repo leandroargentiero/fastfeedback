@@ -22,8 +22,6 @@ const SiteFeedback = () => {
     fetcher
   );
 
-  console.log(siteData?.name);
-
   if (!feedbackData) {
     return (
       <DashboardShell>
