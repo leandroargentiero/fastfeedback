@@ -21,6 +21,9 @@ const SiteFeedback = () => {
     user ? [`/api/feedback/${query.siteId}`, user.token] : null,
     fetcher
   );
+  const filteredFeedbackData = feedbackData?.filter(
+    (f) => f.status !== 'removed'
+  );
 
   if (!feedbackData) {
     return (
@@ -34,8 +37,8 @@ const SiteFeedback = () => {
   return (
     <DashboardShell>
       <SiteFeedbackTableHeader site={siteData || '-'} />
-      {feedbackData?.length ? (
-        <FeedbackTable allFeedback={feedbackData} />
+      {filteredFeedbackData?.length ? (
+        <FeedbackTable allFeedback={filteredFeedbackData} />
       ) : (
         <FeedbackEmptyState />
       )}
