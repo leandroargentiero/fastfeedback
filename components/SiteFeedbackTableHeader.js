@@ -9,7 +9,7 @@ import {
 } from '@chakra-ui/react';
 import EditSiteModal from './EditSiteModal';
 
-const SiteFeedbackTableHeader = ({ siteName, isSiteOwner }) => {
+const SiteFeedbackTableHeader = ({ site, isSiteOwner }) => {
   return (
     <>
       <Breadcrumb color="gray.600" fontSize="sm">
@@ -19,13 +19,13 @@ const SiteFeedbackTableHeader = ({ siteName, isSiteOwner }) => {
           </NextLink>
         </BreadcrumbItem>
         <BreadcrumbItem>
-          <BreadcrumbLink isCurrentPage>{siteName || '-'}</BreadcrumbLink>
+          <BreadcrumbLink isCurrentPage>{site?.name || '-'}</BreadcrumbLink>
         </BreadcrumbItem>
       </Breadcrumb>
       <Flex w="full" justifyContent="space-between" mb={7}>
-        <Heading size="xl">{siteName || '-'}</Heading>
+        <Heading size="xl">{site?.name || '-'}</Heading>
         {isSiteOwner ? (
-          <EditSiteModal siteId={siteId} settings={site?.settings}>
+          <EditSiteModal siteId={site?.id} settings={site?.settings}>
             edit Site
           </EditSiteModal>
         ) : null}

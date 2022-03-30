@@ -25,7 +25,7 @@ const SiteFeedback = () => {
   if (!feedbackData) {
     return (
       <DashboardShell>
-        <SiteFeedbackTableHeader siteName={siteData?.name || '-'} />
+        <SiteFeedbackTableHeader site={siteData || '-'} />
         <SiteTableSkeleton />
       </DashboardShell>
     );
@@ -33,7 +33,7 @@ const SiteFeedback = () => {
 
   return (
     <DashboardShell>
-      <SiteFeedbackTableHeader siteName={siteData?.name || '-'} />
+      <SiteFeedbackTableHeader site={siteData || '-'} />
       {feedbackData?.length ? (
         <FeedbackTable allFeedback={feedbackData} />
       ) : (
