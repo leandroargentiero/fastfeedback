@@ -18,8 +18,8 @@ const SiteFeedbackTableHeader = ({ site, isSiteOwner }) => {
     <>
       <Breadcrumb color="gray.600" fontSize="sm">
         <BreadcrumbItem>
-          <NextLink href="/feedback" passHref>
-            <BreadcrumbLink>Feedback</BreadcrumbLink>
+          <NextLink href="/sites" passHref>
+            <BreadcrumbLink>Sites</BreadcrumbLink>
           </NextLink>
         </BreadcrumbItem>
         <BreadcrumbItem>
