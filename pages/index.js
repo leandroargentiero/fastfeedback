@@ -23,7 +23,7 @@ export async function getStaticProps(context) {
   };
 }
 
-const Home = ({ allFeedback, site }) => {
+const Home = ({ allFeedback = [], site = {} }) => {
   const auth = useAuth();
 
   return (
