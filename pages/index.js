@@ -101,7 +101,7 @@ const Home = ({ allFeedback = [], site = {} }) => {
         mt={8}
         px={4}
       >
-        <FeedbackLink paths={[SITE_ID]} />
+        <FeedbackLink siteId={SITE_ID} />
         {allFeedback.map((feedback, index) => (
           <Feedback
             key={feedback.id}
