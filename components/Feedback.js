@@ -5,7 +5,7 @@ import { FaGithub, FaGoogle } from 'react-icons/fa';
 
 const Feedback = ({ author, text, createdAt, siteSettings }) => {
   const { user } = useAuth();
-  const provider = user?.provider.slice(0, -4);
+  const provider = user?.provider?.slice(0, -4);
 
   const showProviderIcon = (providerName) => {
     switch (providerName) {

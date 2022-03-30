@@ -1,110 +1,118 @@
 import Head from 'next/head';
-import NextLink from 'next/link';
-import {
-  Button,
-  Flex,
-  Text,
-  Link,
-  Box,
-  Heading,
-  VStack
-} from '@chakra-ui/react';
-import { FaGithub } from 'react-icons/fa';
-import { FcGoogle } from 'react-icons/fc';
+import { Box, Button, Flex, Text, Link, Heading } from '@chakra-ui/react';
 
 import { useAuth } from '@/lib/auth';
+import { getAllFeedback, getSite } from '@/lib/db-admin';
+import Feedback from '@/components/Feedback';
+import FeedbackLink from '@/components/FeedbackLink';
+import LoginButtons from '@/components/LoginButtons';
 import { LogoIcon } from '@/components/CustomIcons';
 
-export default function Index() {
+const SITE_ID = process.env.NEXT_PUBLIC_HOME_PAGE_SITE_ID;
+
+export async function getStaticProps(context) {
+  const { feedback } = await getAllFeedback(SITE_ID);
+  const { site } = await getSite(SITE_ID);
+
+  return {
+    props: {
+      allFeedback: feedback,
+      site
+    },
+    revalidate: 1
+  };
+}
+
+const Home = ({ allFeedback, site }) => {
   const auth = useAuth();
 
   return (
-    <Flex
-      as="main"
-      direction="column"
-      align="center"
-      justify="center"
-      h="100vh"
-    >
-      <Head>
-        <title>Fast Feedback</title>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-          if (document.cookie && document.cookie.includes('fast-feedback-auth')) {
-            window.location.href = "/dashboard"
-          }
-        `
-          }}
-        />
-      </Head>
-      <VStack
-        bgColor="white"
-        px={5}
-        py={16}
-        borderRadius={4}
-        border="1px solid"
-        borderColor="gray.100"
-      >
-        <Box textAlign="center">
-          <LogoIcon color="black" w={16} h={16} mb={4} />
-          <Heading size="xl">Log in to Fast Feedback </Heading>
-          <Text fontSize="sm" textAlign="center" maxWidth="450px" my={4}>
-            This version of {''}
-            Fast Feedback was built by{' '}
+    <>
+      <Box bg="gray.100" py={16} px={4}>
+        <Flex
+          as="main"
+          direction="column"
+          maxW="700px"
+          alignItems="start"
+          margin="0 auto"
+        >
+          <Head>
+            <script
+              dangerouslySetInnerHTML={{
+                __html: `
+              if (document.cookie && document.cookie.includes('fast-feedback-auth')) {
+                window.location.href = "/sites"
+              }
+            `
+              }}
+            />
+          </Head>
+
+          <LogoIcon color="black" w={12} h={12} mb={4} />
+          <Heading fontSize="3xl" mb={2}>
+            Welcome to Fast Feedback
+          </Heading>
+          <Text fontSize="md" mb={8}>
+            This version of{' '}
+            <Text as="span" fontWeight="bold" display="inline">
+              Fast Feedback
+            </Text>{' '}
+            was built by{' '}
             <Link
+              href="https://github.com/leandroargentiero"
+              isExternal
               textDecoration="underline"
-              _hover={{ textDecoration: 'none' }}
             >
               Leandro Argentiero
             </Link>{' '}
             as part of React 2025. It's an easy solution for adding comments or
-            reviews to your static site. It's still a work in progress, but you
-            can try it out by logging in.
+            reviews to a static site. It's still a work in progress, but you can
+            try it out by leaving a comment below or logging in and create a
+            feedback embed for your own website.
           </Text>
-        </Box>
-
-        {auth.user ? (
-          <NextLink href="/dashboard" passHref>
+          {auth.user ? (
             <Button
-              size="md"
-              mt={4}
+              as="a"
+              href="/sites"
               backgroundColor="gray.900"
               color="white"
               fontWeight="medium"
-              _hover={{ bg: 'gray.700' }}
-              _active={{ bg: 'gray.800', transform: 'scale(0.98)' }}
-            >
-              Go to dashboard
-            </Button>
-          </NextLink>
-        ) : (
-          <VStack>
-            <Button
-              onClick={(e) => auth.signinWithGitHub()}
-              leftIcon={<FaGithub />}
-              size="md"
               mt={4}
-              backgroundColor="gray.900"
-              color="white"
-              fontWeight="medium"
+              maxW="200px"
               _hover={{ bg: 'gray.700' }}
-              _active={{ bg: 'gray.800', transform: 'scale(0.98)' }}
+              _active={{
+                bg: 'gray.800',
+                transform: 'scale(0.95)'
+              }}
             >
-              Continue with Github
+              View Dashboard
             </Button>
-            <Button
-              onClick={(e) => auth.signinWithGoogle()}
-              leftIcon={<FcGoogle />}
-              size="md"
-              mt={4}
-              variant="outline"
-            >
-              Continue with Google
-            </Button>
-          </VStack>
-        )}
-      </VStack>
-    </Flex>
+          ) : (
+            <LoginButtons />
+          )}
+        </Flex>
+      </Box>
+      <Box
+        display="flex"
+        flexDirection="column"
+        width="full"
+        maxWidth="700px"
+        margin="0 auto"
+        mt={8}
+        px={4}
+      >
+        <FeedbackLink paths={[SITE_ID]} />
+        {allFeedback.map((feedback, index) => (
+          <Feedback
+            key={feedback.id}
+            settings={site?.settings}
+            isLast={index === allFeedback.length - 1}
+            {...feedback}
+          />
+        ))}
+      </Box>
+    </>
   );
-}
+};
+
+export default Home;
