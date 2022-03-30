@@ -1,4 +1,5 @@
 import { useRef } from 'react';
+import { useSWRConfig } from 'swr';
 import {
   AlertDialog,
   AlertDialogBody,
@@ -11,7 +12,6 @@ import {
   Tooltip,
   useDisclosure
 } from '@chakra-ui/react';
-import { mutate } from 'swr';
 import { DeleteIcon } from '@chakra-ui/icons';
 
 import { deleteFeedback } from '@/lib/db';
@@ -19,23 +19,14 @@ import { useAuth } from '@/lib/auth';
 
 const RemoveFeedbackButton = ({ feedbackId }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { mutate } = useSWRConfig();
   const cancelRef = useRef();
   const auth = useAuth();
 
   const onDeleteFeedback = async () => {
     try {
       await deleteFeedback(feedbackId);
-      mutate(
-        ['/api/feedback', auth.user.token],
-        async (data) => {
-          return {
-            feedback: data.feedback.filter(
-              (feedback) => feedback.id !== feedbackId
-            )
-          };
-        },
-        false
-      );
+      mutate([`/api/feedback/${feedbackId}`, auth.user.token]);
       onClose();
     } catch (error) {
       console.log(error);
